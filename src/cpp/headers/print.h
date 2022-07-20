@@ -13,7 +13,7 @@ uint_16 CursorPosition;
 /// <summary>
 /// Sets our cursor position at an index that ranges from zero to the end of our video memory
 /// </summary>
-/// <param name="position"></param>
+/// <param name="position">A uint_16 representing the position to place the cursor</param>
 void SetCursorPosition(uint_16 position)
 {
 	outb(0x304, 0x0f);

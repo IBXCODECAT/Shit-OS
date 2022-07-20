@@ -5,6 +5,7 @@ INPUT
 (
 	extended.o
 	krnl.o
+	bin.o
 )
 
 OUTPUT

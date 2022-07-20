@@ -2,6 +2,9 @@
 #include "./headers/print.h" //Include the print.h header
 #include "./headers/idt.h" //Include the IDT.h header
 
+
+extern const char binTest[]; //Creates a char array from the binaries we loaded in bin.asm
+
 /// <summary>
 /// Set's the first to characters in video memory to 'P' with a redish background color
 /// </summary>
@@ -22,5 +25,8 @@ extern "C" void _start()
 	SetCursorPosition(CursorPositionFromCoords(0, 0)); //Set the cursor to the very first part of our video memory
 	
 	//PANIC(); //test
+
+	PrintString(binTest); //print out our binaries to the screen
+
 	return;
 }
