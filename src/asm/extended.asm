@@ -9,8 +9,10 @@ jmp EnterProtectedMode						; Jump to instruction( i.e. forever ).
 
 %include "./asm/teletype.asm"				; Include file in compilation (16-bit code)
 %include "./asm/gdt.asm"					; Include file in compilation (16-bit code)
+%include "./asm/memory.asm"					; Include file in compilation (16-bit code)
 
 EnterProtectedMode:							; Enter 32-Bit Protected Mode (Disable interupts, Enable A20 Line, Load GDT, Set GDT)
+	call DetectMemory						; Detect memory before entering 32 Bit protected mode
 	call EnableA20Line						; Enable the A20 Line
 	cli										; Disable Interupts
 	lgdt [GDT_Descriptor]					; Load the GDT into our GDT descriptor
