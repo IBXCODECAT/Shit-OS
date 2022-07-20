@@ -7,8 +7,6 @@ wsl $WSLENV/x86_64-elf-ld -T"linker.ld"
 
 copy /b boot.bin+krnl.bin image.img
 
-pause
-
 del krnl.o
 del extended.o
 

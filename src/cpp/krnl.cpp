@@ -21,6 +21,6 @@ extern "C" void _start()
 
 	SetCursorPosition(CursorPositionFromCoords(0, 0)); //Set the cursor to the very first part of our video memory
 	
-	PANIC(); //test
+	//PANIC(); //test
 	return;
 }
