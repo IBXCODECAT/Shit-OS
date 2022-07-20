@@ -28,20 +28,15 @@ extern "C" void _start()
 	
 	MainKeyboardHandler = KeyboardHandler;
 
-	//PANIC(); //test
+	MemoryMapEntry** UseableMemoryMaps = GetUseableMemoryRegions();
 
-	//PrintString(binTest); //print out our binaries to the screen
+	for(uint_8 i = 0; i < useableMemoryRegionsCount; i++)
+	{
+		MemoryMapEntry* memMap = UseableMemoryMaps[i];
+		PrintMemoryMap(memMap, CursorPosition);
+		PrintString("\n\r");
+	}
 
-	//PrintString(IntegerToString(-12321));
-
-	float x = -6.8f;
-
-	SetCursorPosition(CursorPositionFromCoords(0, 1));
-
-	PrintString(FloatToString(x, 2));
-
-	SetCursorPosition(CursorPositionFromCoords(0, 3));
-	PrintString(IntegerToString(MemoryRegionCount));
 
 	return;
 }
