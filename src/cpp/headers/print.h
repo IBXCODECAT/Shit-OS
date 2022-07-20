@@ -118,3 +118,53 @@ template<typename T> const char* HexToString(T value)
 
 	return hexToStringOut;
 }
+
+char integerToStringOutput[128];
+
+template<typename T> const char* IntegerToString(T value)
+{
+	//To convert a integer to an ASCII representation we divide by 10 and use the remainder
+
+	uint_8 indexOffset = 0;
+
+	if(value < 0) //If the integer is negative...
+	{
+		indexOffset = 1; //set indexOffset to 1 to make room for our '-' character
+		value *= -1; //Flip the sign of our number
+		integerToStringOutput[0] = '-'; //Place the negative sign at our first index
+	}
+
+	uint_8 size = 0;
+	uint_64 sizeTester = (uint_64)value;
+
+	//Determine the size of the string we will need to represent our hex
+	while(sizeTester / 10 > 0)
+	{
+		sizeTester /= 10;
+		size++;
+	}
+
+	uint_8 index = 0;
+
+	uint_64 newValue = (uint_64)value;
+
+	while (newValue / 10 > 0)
+	{
+		uint_8 remainder = newValue % 10;
+		newValue /= 10;
+
+		//Put in our value at (size - index) which is equal to the remainder with an offset of 48 for ASCII
+		integerToStringOutput[indexOffset + size - index] = remainder + 48;
+		
+		index++;
+	}
+
+	uint_8 remainder = newValue % 10;
+
+	//Put in our value at (size - index) which is equal to the remainder with an offset of 48 for ASCII
+	integerToStringOutput[indexOffset + size - index] = remainder + 48;
+	integerToStringOutput[indexOffset + size + 1] = 0; //Null terminate our string
+
+	return integerToStringOutput;
+	
+}

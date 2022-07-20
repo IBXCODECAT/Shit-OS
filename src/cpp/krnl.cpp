@@ -1,7 +1,7 @@
 #include "./headers/panic64.h" //Include the panic64.h header
 #include "./headers/print.h" //Include the print.h header
 #include "./headers/idt.h" //Include the IDT.h header
-
+#include "./headers/keyboard.h" //Include the keyboard.h header
 
 extern const char binTest[]; //Creates a char array from the binaries we loaded in bin.asm
 
@@ -13,14 +13,6 @@ extern "C" void _krnlTest()
 	int* ptr = (int*)0xb8000;
 	*ptr = 0x50505050;
 	return;
-}
-
-void KeyboardHandler(uint_8 scancode, uint_8 chr)
-{
-	if(chr != 0)
-	{
-		PrintChar(chr);	
-	}
 }
 
 /// <summary>
@@ -36,7 +28,9 @@ extern "C" void _start()
 
 	//PANIC(); //test
 
-	PrintString(binTest); //print out our binaries to the screen
+	//PrintString(binTest); //print out our binaries to the screen
+
+	PrintString(IntegerToString(-12321));
 
 	return;
 }
