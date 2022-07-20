@@ -17,7 +17,7 @@ Print:
 	ret								; Return
 
 ; String definitions can go down here to be set into the bx register before calling Print:
-SYS_MSG: db "Copyright(C) 2022 IBXCODECAT, Dom73 | ", 0
+SYS_MSG: db "Copyright(C) 2022 IBXCODECAT | ", 0
 BOOT_STRING: db "Boot OK | ", 0
 DISK_READ_SUCCESS: db "Disk Read OK | ", 0
 DISK_READ_ERROR_STRING: db "ERR: Disk Read Failed | ", 0
