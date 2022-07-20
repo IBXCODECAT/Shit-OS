@@ -3,6 +3,7 @@
 #include "typedefs.h" //Include typedef.h header (contains custom data types)
 #include "keyboardscanset0.h" //Include keybaord scanset header
 
+//The data structure for our interupt descriptor table
 struct IDT64
 {
 	uint_16 offset_low;
@@ -42,13 +43,23 @@ void initIDT()
 	LoadIDT();
 }
 
+
+void (*MainKeyboardHandler)(uint_8 scancode, uint_8 chr);
+
 extern "C" void isr1_handler()
 {
 	uint_8 scancode = inb(0x60);
-	
+	uint_8 chr = 0;
+
 	if (scancode < 0x3A)
 	{
-		PrintChar(KBSet0::ScanCodeLookupTable[scancode]);
+		chr = KBSet0::ScanCodeLookupTable[scancode];
+	}
+
+	//If our main keyboard handler is not a null pointer...
+	if(MainKeyboardHandler != 0)
+	{
+		MainKeyboardHandler(scancode, chr);
 	}
 
 	//Signal to the PIC chip that we have finished our interput

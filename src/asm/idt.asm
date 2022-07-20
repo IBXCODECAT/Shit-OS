@@ -1,3 +1,4 @@
+; Interupt Service Routines for our Interupt Descriptor Table... 
 
 [extern _idt]					; Connect _idt with our linker
 idtDescriptor:

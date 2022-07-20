@@ -15,15 +15,25 @@ extern "C" void _krnlTest()
 	return;
 }
 
+void KeyboardHandler(uint_8 scancode, uint_8 chr)
+{
+	if(chr != 0)
+	{
+		PrintChar(chr);	
+	}
+}
+
 /// <summary>
 /// The start of our krnl
 /// </summary>
 extern "C" void _start()
 {
-	initIDT();
+	initIDT(); //Initialize the Interupt Descriptor Table
 
 	SetCursorPosition(CursorPositionFromCoords(0, 0)); //Set the cursor to the very first part of our video memory
 	
+	MainKeyboardHandler = KeyboardHandler;
+
 	//PANIC(); //test
 
 	PrintString(binTest); //print out our binaries to the screen
