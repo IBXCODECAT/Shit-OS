@@ -7,8 +7,8 @@ call Print									; Call Print: from teletype.asm
 
 jmp EnterProtectedMode						; Jump to instruction( i.e. forever ).
 
-%include "./teletype.asm"					; Include file in compilation (16-bit code)
-%include "./gdt.asm"						; Include file in compilation (16-bit code)
+%include "./asm/teletype.asm"				; Include file in compilation (16-bit code)
+%include "./asm/gdt.asm"					; Include file in compilation (16-bit code)
 
 EnterProtectedMode:							; Enter 32-Bit Protected Mode (Disable interupts, Enable A20 Line, Load GDT, Set GDT)
 	call EnableA20Line						; Enable the A20 Line
@@ -30,9 +30,9 @@ EnableA20Line:								; Enabling the A20 Line is required for backwards compatab
 
 [bits 32]									; We are now in 32-bit Protected Mode!
 
-%include "./cpuid.asm"						; Include file in compilation (32-bit code)
-%include "./paging.asm"						; Include file in compilation (32-bit code)
-%include "./panic32.asm"					; Include file in compilation (32-bit code)
+%include "./asm/cpuid.asm"					; Include file in compilation (32-bit code)
+%include "./asm/paging.asm"					; Include file in compilation (32-bit code)
+%include "./asm/panic32.asm"				; Include file in compilation (32-bit code)
 
 StartProtectedMode:							; Run a quck procedure before computing in 32-Bit protected mode
 
@@ -60,7 +60,7 @@ StartProtectedMode:							; Run a quck procedure before computing in 32-Bit prot
 [extern _krnlTest]							; Reference this name from a c++ file
 [extern _start]								; Reference this name from a c++ file
 
-%include "idt.asm"							; Include the contents of IDT.asm here
+%include "./asm/idt.asm"					; Include the contents of IDT.asm here
 
 StartLongMode:
 	mov edi, 0xb8000

@@ -17,8 +17,8 @@ call ReadDisk						; Call ReadDisk: from load_disk_sector.asm
 
 jmp EXTENDED_SPACE                  ; Jump to instructions in extended.asm
 
-%include "./teletype.asm"			; Include file in compilation
-%include "./load_disk_sector.asm"	; Include file in compilation
+%include "./asm/teletype.asm"	        ; Include file in compilation
+%include "./asm/load_disk_sector.asm"	; Include file in compilation
 
 times 510-($-$$) db 0				; Fill up to 510 bytes
 dw 0xaa55                           ; Boot Sector signature
