@@ -1,6 +1,6 @@
-#include "panic64.h" //Include the panic64.h header
-#include "print.h" //Include the print.h header
-#include "idt.h" //Include the IDT.h header
+#include "./headers/panic64.h" //Include the panic64.h header
+#include "./headers/print.h" //Include the print.h header
+#include "./headers/idt.h" //Include the IDT.h header
 
 /// <summary>
 /// Set's the first to characters in video memory to 'P' with a redish background color
