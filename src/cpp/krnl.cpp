@@ -3,6 +3,8 @@
 #include "./headers/idt.h" //Include the IDT.h header
 #include "./headers/keyboard.h" //Include the keyboard.h header
 
+#include "./headers/memory/map.h" //Include our memoryMap header
+
 extern const char binTest[]; //Creates a char array from the binaries we loaded in bin.asm
 
 /// <summary>
@@ -37,6 +39,9 @@ extern "C" void _start()
 	SetCursorPosition(CursorPositionFromCoords(0, 1));
 
 	PrintString(FloatToString(x, 2));
+
+	SetCursorPosition(CursorPositionFromCoords(0, 3));
+	PrintString(IntegerToString(MemoryRegionCount));
 
 	return;
 }
