@@ -70,7 +70,20 @@ StartLongMode:
 
 	;call _krnlTest							; Call _krnlTest from krnl.cpp (Should write PP to screen)
 	
+	call ActivateSSE						; Call ActivateSSE from this file
 	call _start								; Call _start from krnl.cpp
 	jmp $
+
+ActivateSSE:								; Activate the SSE to print floats/doubles (even when casted)
+	
+	mov rax, cr0							; Set the bits of the cr0 register
+	and ax, 0b11111101
+	or ax, 0b00000001
+	mov cr0, rax
+
+	mov rax, cr4							; Set the bits of the cr4 register
+	or ax, 0b1100000000
+	mov cr4, rax
+	ret
 
 times 2048-($-$$) db 0						; Zerofill 4 sectors for testing purposes

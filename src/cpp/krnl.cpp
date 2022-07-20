@@ -30,7 +30,13 @@ extern "C" void _start()
 
 	//PrintString(binTest); //print out our binaries to the screen
 
-	PrintString(IntegerToString(-12321));
+	//PrintString(IntegerToString(-12321));
+
+	float x = 35.7f;
+
+	SetCursorPosition(CursorPositionFromCoords(0, 1));
+
+	PrintString(IntegerToString((int)x));
 
 	return;
 }
