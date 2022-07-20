@@ -12,5 +12,5 @@
 
 %endmacro                       ; Terminate our macro
 
-IncBin binTest, "./bin/bintest.txt"
+IncBin binTest, "./binaries/bintest.txt"
 
