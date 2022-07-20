@@ -32,11 +32,11 @@ extern "C" void _start()
 
 	//PrintString(IntegerToString(-12321));
 
-	float x = 35.7f;
+	float x = -6.8f;
 
 	SetCursorPosition(CursorPositionFromCoords(0, 1));
 
-	PrintString(IntegerToString((int)x));
+	PrintString(FloatToString(x, 2));
 
 	return;
 }

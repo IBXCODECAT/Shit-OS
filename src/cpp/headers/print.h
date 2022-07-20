@@ -120,7 +120,6 @@ template<typename T> const char* HexToString(T value)
 }
 
 char integerToStringOutput[128];
-
 template<typename T> const char* IntegerToString(T value)
 {
 	//To convert a integer to an ASCII representation we divide by 10 and use the remainder
@@ -167,4 +166,42 @@ template<typename T> const char* IntegerToString(T value)
 
 	return integerToStringOutput;
 	
+}
+
+char floatToStringOutput[128];
+const char* FloatToString(float value, uint_8 decimalPlaces)
+{
+	char* intPtr = (char*)IntegerToString((int)value); //Print the integer portion of our value
+	char* floatPtr = floatToStringOutput; //Set the pointer to the start of our output array
+
+	if(value < 0) //If the float/double is negative...
+	{
+		value *= -1; //Make our value positive for the display (integerToString handles negative sign)
+	}
+
+	//While our integer pointer is not null...
+	while(*intPtr != 0)
+	{
+		*floatPtr = *intPtr;
+		intPtr++;
+		floatPtr++;
+	}
+
+	*floatPtr = '.'; //The value at our float pointer is the start of our decimal
+	floatPtr++;
+
+	float newValue = value - (int)value; //Cut the integer portion off of our decimal (we will just get a decimal portion)
+
+	//For each decimal place we would like to display...
+	for(uint_8 i = 0; i < decimalPlaces; i++)
+	{
+		newValue *= 10; //Multiply by 10 to get an integer we can display
+		*floatPtr = (int)newValue + 48; //Convert integer to ASCII
+		newValue -= (int)newValue; //Cut the integer portion off of newValue after being processed
+		floatPtr++; //Increment the float pointer so we can process the next decimal place
+	}
+
+	*floatPtr = 0; //Null terminate our buffer
+
+	return floatToStringOutput;
 }
