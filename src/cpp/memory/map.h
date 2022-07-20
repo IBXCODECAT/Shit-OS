@@ -1,7 +1,7 @@
 #pragma once //the compiler will only include this file once
 
-#include "./../typedefs.h" //Include typedef.h header (contains custom data types)
-#include "./../print.h"
+#include "./../headers/typedefs.h" //Include typedef.h header (contains custom data types)
+#include "./../headers/print.h"
 
 struct MemoryMapEntry
 {

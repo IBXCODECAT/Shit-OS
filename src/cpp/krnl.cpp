@@ -3,7 +3,8 @@
 #include "./headers/idt.h" //Include the IDT.h header
 #include "./headers/keyboard.h" //Include the keyboard.h header
 
-#include "./headers/memory/map.h" //Include our memoryMap header
+#include "./memory/map.h" //Include our memoryMap header
+#include "./memory/heap.h" //Include our memoryHeap header
 
 extern const char binTest[]; //Creates a char array from the binaries we loaded in bin.asm
 
@@ -36,6 +37,12 @@ extern "C" void _start()
 		PrintMemoryMap(memMap, CursorPosition);
 		PrintString("\n\r");
 	}
+
+	InitHeap(0x100000, 0x100000); //Initialize our heap with the maximun size we set previously
+
+	void* testMemoryadress = malloc(60);
+
+	PrintString(HexToString((uint_64)testMemoryadress));
 
 
 	return;
