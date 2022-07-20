@@ -40,10 +40,15 @@ extern "C" void _start()
 
 	InitHeap(0x100000, 0x100000); //Initialize our heap with the maximun size we set previously
 
-	void* testMemoryadress = malloc(60);
+	void* testMemoryadress = malloc(0x10);
+	void* testMemoryadress1 = malloc(0x10);
+	void* testMemoryadress2 = malloc(0x10);
 
 	PrintString(HexToString((uint_64)testMemoryadress));
-
+	PrintString("\n\r");
+	PrintString(HexToString((uint_64)testMemoryadress1));
+	PrintString("\n\r");
+	PrintString(HexToString((uint_64)testMemoryadress2));
 
 	return;
 }
