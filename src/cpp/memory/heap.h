@@ -15,5 +15,6 @@ struct MemorySegmentHeader
     bool free; //is this memory region free?
 };
 
-extern void InitHeap(uint_64 heapAddress, uint_64 heapLength); //Extern allows this to be called from our kernel
-extern void* malloc(uint_64 size); //Extern allows this to be called from our kernel
+void InitHeap(uint_64 heapAddress, uint_64 heapLength); //Forward declare this function from source so it can be acessed in the krnl
+void* malloc(uint_64 size); //Forward declare this function from source so it can be acessed in the krnl
+void free(void* address); //Forward declare this function from source so it can be acessed in the krnl

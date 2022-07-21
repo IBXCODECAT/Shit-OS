@@ -50,5 +50,14 @@ extern "C" void _start()
 	PrintString("\n\r");
 	PrintString(HexToString((uint_64)testMemoryadress2));
 
+	free(testMemoryadress);
+	free(testMemoryadress1);
+	free(testMemoryadress2);
+
+	void* test4 = malloc(0x60);
+
+	PrintString("\n\r");
+	PrintString(HexToString((uint_64)test4));
+
 	return;
 }

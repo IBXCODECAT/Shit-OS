@@ -18,6 +18,44 @@ void InitHeap(uint_64 heapAddress, uint_64 heapLength)
 }
 
 /// <summary>
+/// combines free segments of memroy into a larger segment
+/// <summary>
+/// <param name=a>The memory segment header of the first block</param>
+/// <param name=b>The memory segment header of the second block</param>
+void CombineFreeSegments(MemorySegmentHeader* a, MemorySegmentHeader* b)
+{
+    if(a == 0 || b == 0) return; //If either memory block inputed is null, we won't do anything
+
+    //If a comes before b in memory...
+    if(a < b)
+    {
+        //Make the memory length of a span the entire length of a plus the header for b and the entire length of b
+        a->MemoryLength += b->MemoryLength + sizeof(MemorySegmentHeader);
+
+        //Update the nextSegment references for block a 
+        a->NextSegment = b->NextSegment;
+        a->NextFreeSegment = b->NextFreeSegment;
+
+        b->NextSegment->PreviousSegment = a;
+        b->NextSegment->PreviousFreeSegment = a;
+        b->NextFreeSegment->PreviousFreeSegment = a;
+    }
+    else
+    {
+        //Make the memory length of b span the entire length of b plus the header for a and the entire length of a
+        b->MemoryLength += a->MemoryLength + sizeof(MemorySegmentHeader);
+
+        //Update the nextSegment references for block b
+        b->NextSegment = a->NextSegment;
+        b->NextFreeSegment = a->NextFreeSegment;
+
+        a->NextSegment->PreviousSegment = b;
+        a->NextSegment->PreviousFreeSegment = b;
+        a->NextFreeSegment->PreviousFreeSegment = b;
+    }
+}
+
+/// <summary>
 /// memory allocate (malloc)
 /// <summary>
 /// <param name=allocSize>allocation size (how much memory to allocate)</param>
@@ -120,4 +158,69 @@ void* malloc(uint_64 allocSize)
     }
 
     return 0; //We should never get here...
+}
+
+/// <summary>
+/// free memory (malloc)
+/// <summary>
+/// <param name=allocSize>the address of the memory we wish to free</param>
+void free(void* address)
+{
+    //Calculate the correct adress of the memory segment header of the memory segment to free
+    MemorySegmentHeader* freeableMemorySegment = (MemorySegmentHeader*)address - 1;
+    
+    freeableMemorySegment->free = true; //This memory segment shall be labeled as free
+
+    //If the freeable memory segment is before the first free memory segment, set the first free memory segment to the freeableMemorySegment
+    if(freeableMemorySegment < firstFreeMemorySegment) firstFreeMemorySegment = freeableMemorySegment;
+
+    //If the next  free memory segment of the freeable memory segment is not a null pointer
+    if(freeableMemorySegment->NextFreeSegment != 0)
+    {
+        //If the next free segment's previous free segment is before this free segment... 
+        if(freeableMemorySegment->NextFreeSegment->PreviousFreeSegment < freeableMemorySegment)
+        {
+            //Set the next free segment of the previous free segment to this free segment
+            freeableMemorySegment->NextFreeSegment->PreviousFreeSegment = freeableMemorySegment;
+        }
+    }
+
+    //If the previous free memory segment of the freeable memory segment is not a null pointer
+    if(freeableMemorySegment->PreviousFreeSegment != 0)
+    {
+        //If the pevious free segment's next free segment is after this free segment... 
+        if(freeableMemorySegment->PreviousFreeSegment->NextFreeSegment > freeableMemorySegment)
+        {
+            //Set the previous free segment of the next free segment to this free segment
+            freeableMemorySegment->PreviousFreeSegment->NextFreeSegment = freeableMemorySegment;
+        }
+    }
+
+    //If the next memory segment of the freeable memory segment is not a null pointer
+    if(freeableMemorySegment->NextSegment != 0)
+    {
+        //Set the next memory segment's previous memory segment to this memory segment
+        freeableMemorySegment->NextSegment->PreviousSegment = freeableMemorySegment;
+
+        //If the memory segment after the memory segment we are freeing is also free...
+        if(freeableMemorySegment->NextSegment->free)
+        {
+            //Combine both free memory segments into a larger free memory segment
+            CombineFreeSegments(freeableMemorySegment, freeableMemorySegment->NextSegment);
+        }
+    }
+
+    //If the previous memory segment of the freeable memory segment is not a null pointer
+    if(freeableMemorySegment->PreviousSegment != 0)
+    {
+        //Set the next memory segment's next memory segment to this memory segment
+        freeableMemorySegment->PreviousSegment->NextSegment = freeableMemorySegment;
+        
+        //If the memory segment before the memory segment we are freeing is also free...
+        if(freeableMemorySegment->PreviousSegment->free)
+        {
+            //Combine both free memory segments into a larger free memory segment
+            CombineFreeSegments(freeableMemorySegment, freeableMemorySegment->PreviousSegment);
+        }
+    }
 }
