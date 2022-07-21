@@ -1,6 +1,7 @@
 #pragma once //the compiler will only include this file once
 
 #include "./../headers/typedefs.h"
+#include "memory.h"
 
 struct MemorySegmentHeader
 {
@@ -16,5 +17,6 @@ struct MemorySegmentHeader
 };
 
 void InitHeap(uint_64 heapAddress, uint_64 heapLength); //Forward declare this function from source so it can be acessed in the krnl
-void* malloc(uint_64 size); //Forward declare this function from source so it can be acessed in the krnl
+void* malloc(uint_64 allocSize); //Forward declare this function from source so it can be acessed in the krnl
 void free(void* address); //Forward declare this function from source so it can be acessed in the krnl
+void* calloc(uint_64 allocSize); //Forward declare this function from source so it can be acessed in the krnl

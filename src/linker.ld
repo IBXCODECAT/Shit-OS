@@ -6,6 +6,7 @@ INPUT
 	extended.o
 	krnl.o
 	heap.o
+	memory.o
 	bin.o
 )
 

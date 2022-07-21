@@ -161,7 +161,7 @@ void* malloc(uint_64 allocSize)
 }
 
 /// <summary>
-/// free memory (malloc)
+/// free memory (free)
 /// <summary>
 /// <param name=allocSize>the address of the memory we wish to free</param>
 void free(void* address)
@@ -223,4 +223,25 @@ void free(void* address)
             CombineFreeSegments(freeableMemorySegment, freeableMemorySegment->PreviousSegment);
         }
     }
+}
+
+/// <summary>
+/// clear and allocate memory (calloc)
+/// <summary>
+/// <param name=allocSize>allocation size (how much memory to allocate)</param>
+void* calloc(uint_64 allocSize)
+{
+    void* mallocVal = malloc(allocSize); //Do a malloc call to allocate the memory we want to clear
+    MemSet(mallocVal, 0, allocSize); //Zerofill memroy with memset
+    return mallocVal;
+}
+
+/// <summary>
+/// clear and allocate memory (calloc)
+/// <summary>
+/// <param name=num>the number of items to clear and allocate memroy for</param>
+/// <param name=allocSize>allocation size (how much memory to allocate) for each item in an array</param>
+void* calloc(uint_64 num, uint_64 allocSize)
+{
+    return calloc(num * allocSize);
 }
