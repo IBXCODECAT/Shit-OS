@@ -5,8 +5,12 @@ INPUT
 (
 	extended.o
 	krnl.o
+
+	createGUI.o
 	heap.o
+	map.o
 	memory.o
+
 	bin.o
 )
 

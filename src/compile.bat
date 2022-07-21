@@ -3,7 +3,9 @@ nasm ./asm/extended.asm -f elf64 -o extended.o
 nasm ./asm/bin.asm -f elf64 -o bin.o
 
 
+wsl $WSLENV/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c "./cpp/gui/createGUI.cpp" -o "createGUI.o"
 wsl $WSLENV/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c "./cpp/memory/heap.cpp" -o "heap.o"
+wsl $WSLENV/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c "./cpp/memory/map.cpp" -o "map.o"
 wsl $WSLENV/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c "./cpp/memory/memory.cpp" -o "memory.o"
 wsl $WSLENV/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c "./cpp/krnl.cpp" -o "krnl.o"
 
@@ -16,7 +18,11 @@ del extended.o
 del bin.o
 
 del krnl.o
+
+del createGUI.o
+
 del heap.o
+del map.o
 del memory.o
 
 del boot.bin
