@@ -245,3 +245,27 @@ void* calloc(uint_64 num, uint_64 allocSize)
 {
     return calloc(num * allocSize);
 }
+
+/// <summary>
+/// reallocate existing memroy
+/// </summary>
+/// <param name=address>the address of the memory to reallocate (usually returned from a malloc or realloc call)</param>
+/// <param name=newAllocSize>The new segment size the realocation function will reserve</param>
+void* realloc(void* address, uint_64 newAllocSize)
+{
+    //Get the memory segment header of the source memory address
+    MemorySegmentHeader* sourceSegmentHeader = (MemorySegmentHeader*)address - 1;
+
+    //Calculate the smaller segment size so we don't overflow the memory address
+    uint_64 smallSize = newAllocSize;
+    if(sourceSegmentHeader->MemoryLength < newAllocSize)
+    {
+        smallSize = sourceSegmentHeader->MemoryLength;
+    }
+
+    void* allocatedMemory = malloc(newAllocSize); //Allocate memroy at destination
+    MemCopy(allocatedMemory, address, smallSize); //Copy everything from the old memory adress to the new memory adress
+    free(address); //Free the old address as it is no longer in use after reallocation
+
+    return allocatedMemory;
+}

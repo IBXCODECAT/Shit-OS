@@ -40,24 +40,24 @@ extern "C" void _start()
 
 	InitHeap(0x100000, 0x100000); //Initialize our heap with the maximun size we set previously
 
-	void* testMemoryadress = malloc(0x10);
-	void* testMemoryadress1 = malloc(0x10);
-	void* testMemoryadress2 = malloc(0x10);
+	uint_64* test0 = (uint_64*)malloc(0x08);
+	*test0 = 12345678;
 
-	PrintString(HexToString((uint_64)testMemoryadress));
-	PrintString("\n\r");
-	PrintString(HexToString((uint_64)testMemoryadress1));
-	PrintString("\n\r");
-	PrintString(HexToString((uint_64)testMemoryadress2));
-
-	free(testMemoryadress);
-	free(testMemoryadress1);
-	free(testMemoryadress2);
-
-	void* test4 = malloc(0x60);
+	PrintString(IntegerToString(*test0));
 
 	PrintString("\n\r");
-	PrintString(HexToString((uint_64)test4));
+
+	uint_64* test1 = (uint_64*)realloc(test0, 0x08);
+
+	PrintString(IntegerToString(*test1));
+
+	PrintString("\n\r");
+
+	uint_64* test2 = (uint_64*)calloc(0x08);
+
+	PrintString(IntegerToString(*test0));
+
+	PrintString("\n\r");
 
 	return;
 }

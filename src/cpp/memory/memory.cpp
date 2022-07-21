@@ -44,6 +44,50 @@ void MemSet(void* start, uint_64 value, uint_64 num)
     }
 
     return;
+}
 
+/// <summary>
+/// Copy memroy to another memory adress (MemCopy)
+/// </summary>
+/// <param name=destination>Where we are copying data to</param>
+/// <param name=source>Where the data we are copying is</param>
+/// <param name=numBytes>The number of bytes to copy from each address</param>
+void MemCopy(void* destination, void* source, uint_64 numBytes)
+{
+    //If the blocksize is less than 8...
+    if(numBytes <= 8)
+    {
+        //Get an 8 bit pointer to a 64 bit value
+        uint_8* valPtr = (uint_8*)source;
 
+        //Set the destination the memory byte by byte
+        for(uint_8* ptr = (uint_8*)destination; ptr < (uint_8*)((uint_64)destination + numBytes); ptr++)
+        {
+            *ptr = *valPtr;
+            valPtr++;
+        }
+
+        return;
+    }
+
+    uint_64 proceedingBytes = numBytes % 8; //Calculate how many bytes we have to set
+    uint_64 newNum = numBytes - proceedingBytes; //Calculate how many 64 bit set operations we can do
+    uint_64* sourcePtr = (uint_64*)source;
+
+    //Set the memory in large 64 bit chunks
+    for(uint_64* destPtr64 = (uint_64*)destination; destPtr64 < (uint_64*)((uint_64)destination + newNum); destPtr64++)
+    {
+        *destPtr64 = *sourcePtr;
+        sourcePtr++;
+    }
+
+    //Get an 8 bit pointer to a 64 bit value
+    uint_8* sourcePtr8 = (uint_8*)((uint_64)source + newNum);
+
+    //Finish off by setting the memory byte by byte
+    for(uint_8* destPtr8 = (uint_8*)((uint_64)destination + newNum); destPtr8 < (uint_8*)((uint_64)destination + numBytes); destPtr8++)
+    {
+        *destPtr8 = *sourcePtr8;
+        sourcePtr8++;
+    }
 }
