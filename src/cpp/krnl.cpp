@@ -59,5 +59,8 @@ extern "C" void _start()
 
 	PrintString("\n\r");
 
+	PrintString("I am just printing this string to try and proove I am actually compiling to the correct disk image file");
+
+	PANIC();
 	return;
 }
