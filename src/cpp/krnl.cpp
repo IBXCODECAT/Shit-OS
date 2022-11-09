@@ -31,36 +31,10 @@ extern "C" void _start()
 
 	MemoryMapEntry** UseableMemoryMaps = GetUseableMemoryRegions();
 
-	for(uint_8 i = 0; i < useableMemoryRegionsCount; i++)
-	{
-		MemoryMapEntry* memMap = UseableMemoryMaps[i];
-		PrintMemoryMap(memMap, CursorPosition);
-		PrintString("\n\r");
-	}
+	InitHeap(0x100000, 0x100000);
 
-	InitHeap(0x100000, 0x100000); //Initialize our heap with the maximun size we set previously
+	uint_64* testAdress = (uint_64*)aligned_alloc(0x4000, 0x08);
+	PrintString(HexToString((uint_64)testAdress));
 
-	uint_64* test0 = (uint_64*)malloc(0x08);
-	*test0 = 12345678;
-
-	PrintString(IntegerToString(*test0));
-
-	PrintString("\n\r");
-
-	uint_64* test1 = (uint_64*)realloc(test0, 0x08);
-
-	PrintString(IntegerToString(*test1));
-
-	PrintString("\n\r");
-
-	uint_64* test2 = (uint_64*)calloc(0x08);
-
-	PrintString(IntegerToString(*test0));
-
-	PrintString("\n\r");
-
-	PrintString("I am just printing this string to try and proove I am actually compiling to the correct disk image file");
-
-	PANIC();
 	return;
 }

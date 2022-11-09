@@ -269,3 +269,36 @@ void* realloc(void* address, uint_64 newAllocSize)
 
     return allocatedMemory;
 }
+
+void* aligned_alloc(uint_64 alignment, uint_64 size)
+{
+    //Here we make sure our alignment and our size is aligned on 8 bytes to keep things in order
+    uint_64 alignmentRemainder = alignment % 8;
+    alignment -= alignmentRemainder;
+    if(alignmentRemainder != 0) alignment += 8;
+
+    uint_64 sizeRemainder = size % 8;
+    size -= sizeRemainder;
+    if(sizeRemainder != 0) size += 8;
+
+    //allocates a memory block of the alignment offset and size together to prevent overflow (not efficient, but I don't wanna fix it)
+    //Note: Wastes all memory within the alignment
+    uint_64 fullSize = size + alignment;
+    void* mallocVal = malloc(fullSize);
+
+    //Here we calculate the aligned address
+    uint_64 address = (uint_64)mallocVal;
+    uint_64 remainder = address % alignment;
+    address -= remainder;
+
+    //If needed we create an aligned memory segment header so our free() function knows where the memory segment header is
+    if(remainder != 0)
+    {
+        address += alignment;
+        AlignedMemorySegmentHeader* AMSH = (AlignedMemorySegmentHeader*)address - 1;
+        AMSH->MemmorySegmentHeaderAddress = (uint_64)mallocVal - sizeof(MemorySegmentHeader);
+        AMSH->isAligned = true;
+    }
+
+    return (void*)address;
+}
