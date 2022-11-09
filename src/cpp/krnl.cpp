@@ -6,8 +6,6 @@
 #include "./memory/map.h" //Include our memoryMap header
 #include "./memory/heap.h" //Include our memoryHeap header
 
-#include "./gui/createGUI.h" //Include our createGUI header
-
 extern const char binTest[]; //Creates a char array from the binaries we loaded in bin.asm
 
 /// <summary>
@@ -42,7 +40,24 @@ extern "C" void _start()
 
 	InitHeap(0x100000, 0x100000); //Initialize our heap with the maximun size we set previously
 
-	PrintString("                           ", BACKGROUND_LIGHTGRAY | FOREGROUND_BLACK); 
+	uint_64* test0 = (uint_64*)malloc(0x08);
+	*test0 = 12345678;
+
+	PrintString(IntegerToString(*test0));
+
+	PrintString("\n\r");
+
+	uint_64* test1 = (uint_64*)realloc(test0, 0x08);
+
+	PrintString(IntegerToString(*test1));
+
+	PrintString("\n\r");
+
+	uint_64* test2 = (uint_64*)calloc(0x08);
+
+	PrintString(IntegerToString(*test0));
+
+	PrintString("\n\r");
 
 	return;
 }
