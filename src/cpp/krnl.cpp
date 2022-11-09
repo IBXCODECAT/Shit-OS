@@ -35,6 +35,12 @@ extern "C" void _start()
 
 	uint_64* testAdress = (uint_64*)aligned_alloc(0x4000, 0x08);
 	PrintString(HexToString((uint_64)testAdress));
+	PrintString("\r\n");
+	//free(testAdress);
+
+	uint_64* testAdress0 = (uint_64*)malloc(0x4000);
+	PrintString(HexToString((uint_64)testAdress0));
+	PrintString("\r\n");
 
 	return;
 }

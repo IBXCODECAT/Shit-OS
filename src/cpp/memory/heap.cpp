@@ -167,14 +167,27 @@ void* malloc(uint_64 allocSize)
 void free(void* address)
 {
     //Calculate the correct adress of the memory segment header of the memory segment to free
-    MemorySegmentHeader* freeableMemorySegment = (MemorySegmentHeader*)address - 1;
+    MemorySegmentHeader* freeableMemorySegment;
+    AlignedMemorySegmentHeader* AMSH = (AlignedMemorySegmentHeader*)address - 1;
+
+    //If the memory segment header is alligned then...
+    if(AMSH->isAligned)
+    {
+        //The current memory segment header adress equals the memory segment adress inside the aligned memory segment header
+        freeableMemorySegment = (MemorySegmentHeader*)(uint_64)AMSH->MemmorySegmentHeaderAddress;
+    }
+    else
+    {
+        //Calculate the correct memory segment adresss for unaligned memory allocations
+        freeableMemorySegment = (MemorySegmentHeader*)address - 1;
+    }
     
     freeableMemorySegment->free = true; //This memory segment shall be labeled as free
 
     //If the freeable memory segment is before the first free memory segment, set the first free memory segment to the freeableMemorySegment
     if(freeableMemorySegment < firstFreeMemorySegment) firstFreeMemorySegment = freeableMemorySegment;
 
-    //If the next  free memory segment of the freeable memory segment is not a null pointer
+    //If the next free memory segment of the freeable memory segment is not a null pointer
     if(freeableMemorySegment->NextFreeSegment != 0)
     {
         //If the next free segment's previous free segment is before this free segment... 
