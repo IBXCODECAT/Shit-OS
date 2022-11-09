@@ -5,7 +5,7 @@ sudo apt install bison
 sudo apt install flex
 sudo apt install libgmp3-dev
 sudo apt install libmpc-dev
-sudo apt isstall libmpfr-dev
+sudo apt install libmpfr-dev
 sudo apt install texinfo
 
 # ====== Setup binutils and binutils build ======
